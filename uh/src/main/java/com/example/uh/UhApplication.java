@@ -1,5 +1,7 @@
 package com.example.uh;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,9 +15,11 @@ import reactor.core.publisher.Mono;
 @RestController
 public class UhApplication {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(UhApplication.class, args);
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(UhApplication.class);
 
     @Value("${appleUrl:http://localhost:8082}")
     private String appleUrl;
@@ -29,18 +33,21 @@ public class UhApplication {
 
         final WebClient client = WebClient.create();
 
-        final Mono<String> maybeApple = client.get()
-                .uri(appleUrl + "/apple")
-                .retrieve()
-                .bodyToMono(String.class);
-
         final Mono<String> maybePen = client.get()
                 .uri(penUrl + "/pen")
                 .retrieve()
                 .bodyToMono(String.class);
 
+        final Mono<String> maybeApple = client.get()
+                .uri(appleUrl + "/apple")
+                .retrieve()
+                .bodyToMono(String.class);
+
         return maybeApple.zipWith(maybePen)
                 .map(x -> {
+                    if (logger.isInfoEnabled()) {
+                        logger.info("Uh!");
+                    }
                     final String apple = x.getT1();
                     final String pen = x.getT2();
                     final long end = System.currentTimeMillis();

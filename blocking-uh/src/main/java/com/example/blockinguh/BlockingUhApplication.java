@@ -1,5 +1,7 @@
 package com.example.blockinguh;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +17,8 @@ public class BlockingUhApplication {
         SpringApplication.run(BlockingUhApplication.class, args);
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(BlockingUhApplication.class);
+
     @Value("${appleUrl:http://localhost:8082}")
     private String appleUrl;
     @Value("${penUrl:http://localhost:8083}")
@@ -27,11 +31,15 @@ public class BlockingUhApplication {
 
         final RestTemplate restTemplate = new RestTemplate();
 
-        final String apple = restTemplate.getForObject(appleUrl + "/apple", String.class);
-
         final String pen = restTemplate.getForObject(penUrl + "/pen", String.class);
 
+        final String apple = restTemplate.getForObject(appleUrl + "/apple", String.class);
+
         final long end = System.currentTimeMillis();
+
+        if (logger.isInfoEnabled()) {
+            logger.info("Uh!");
+        }
 
         return String.format("%s%s(%dmsec)", apple, pen, end - start);
     }
