@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
+import reactor.function.TupleUtils;
 
 @SpringBootApplication
 @RestController
@@ -44,14 +45,12 @@ public class UhApplication {
                 .bodyToMono(String.class);
 
         return maybeApple.zipWith(maybePen)
-                .map(x -> {
+                .map(TupleUtils.function((apple, pen) -> {
                     if (logger.isInfoEnabled()) {
                         logger.info("Uh!");
                     }
-                    final String apple = x.getT1();
-                    final String pen = x.getT2();
                     final long end = System.currentTimeMillis();
                     return String.format("%s%s(%dmsec)", apple, pen, end - start);
-                });
+                }));
     }
 }
