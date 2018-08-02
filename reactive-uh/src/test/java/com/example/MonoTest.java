@@ -1,19 +1,19 @@
 package com.example;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import reactor.core.publisher.Mono;
 
-public class MonoTest {
+class MonoTest {
 
     @Test
-    public void subscribe() throws Exception {
+    void subscribe() throws Exception {
         final Mono<String> mono = Mono.just("Hello, Mono!");
         mono.subscribe(this::println);
     }
 
     @Test
-    public void block() throws Exception {
+    void block() throws Exception {
         final Mono<String> mono = Mono.just("Hello, Mono!");
         final String block = mono.block();
         println(block);
