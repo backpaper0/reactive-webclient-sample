@@ -1,6 +1,6 @@
 package com.example.blockinguh;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,7 @@ class UhControllerTest {
 
         final String applePen = controller.getApplePen();
 
-        assertTrue(applePen.contains("ApplePen"));
+        //AssertJ
+        assertThat(applePen).contains("ApplePen");
     }
 }
