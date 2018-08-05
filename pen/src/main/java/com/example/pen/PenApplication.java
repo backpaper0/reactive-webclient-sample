@@ -20,8 +20,11 @@ public class PenApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(PenApplication.class);
 
-    @Value("${sleep:3}")
-    private long sleep;
+    private final long sleep;
+
+    public PenApplication(@Value("${sleep:3}") final long sleep) {
+        this.sleep = sleep;
+    }
 
     @GetMapping("/pen")
     public String getPen() {

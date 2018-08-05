@@ -20,8 +20,11 @@ public class AppleApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(AppleApplication.class);
 
-    @Value("${sleep:3}")
-    private long sleep;
+    private final long sleep;
+
+    public AppleApplication(@Value("${sleep:3}") final long sleep) {
+        this.sleep = sleep;
+    }
 
     @GetMapping("/apple")
     public String getApple() {

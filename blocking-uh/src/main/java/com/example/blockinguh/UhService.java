@@ -1,5 +1,7 @@
 package com.example.blockinguh;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,7 +13,7 @@ public class UhService {
     private final UhProperties properties;
 
     public UhService(final UhProperties properties) {
-        this.properties = properties;
+        this.properties = Objects.requireNonNull(properties);
     }
 
     public String apple() {
